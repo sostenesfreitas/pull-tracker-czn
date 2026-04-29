@@ -1,11 +1,11 @@
 # config.py — Configurações ajustáveis do Pull Tracker
 # ─────────────────────────────────────────────────────────────────
-# COMO ENCONTRAR AS COORDENADAS:
-#   1. Abra o jogo na tela de Rescue Records
-#   2. Abra o Paint e tire um print (Win+PrintScreen)
-#   3. Abra o print no Paint e passe o mouse em cima de cada região
-#   4. O canto inferior esquerdo do Paint mostra os pixels exatos
-#   5. Cole os valores aqui em NEXT_BUTTON_SCREEN_COORDS e TABLE_SCREEN_REGION
+# COMO CALIBRAR AS COORDENADAS (macOS / Windows):
+#   Execute o calibrador visual:
+#       python calibrar.py
+#   Ele abre um overlay na tela, você arrasta para marcar a tabela
+#   e clica para marcar o botão ">". As coordenadas são salvas aqui
+#   automaticamente.
 # ─────────────────────────────────────────────────────────────────
 
 # ──────────────────────────────────────────────
@@ -26,12 +26,11 @@ DELAY_AFTER_FOCUS   = 0.5   # segundos após focar a janela
 
 # Centro do botão ">" de próxima página
 # Confirmado pelo Print no Paint: cursor em (1079, 914)
-NEXT_BUTTON_SCREEN_COORDS = (1079, 914)
+NEXT_BUTTON_SCREEN_COORDS = (982, 702)
 
 # Região da tabela de pulls em coords absolutas de tela: (x, y, largura, altura)
 # x,y = canto superior esquerdo da PRIMEIRA linha de dados (abaixo do header)
-# Para encontrar: passe o mouse no Paint no início e fim da tabela
-TABLE_SCREEN_REGION = (245, 458, 1402, 271)   # calibrado pelos 4 cantos no Paint
+TABLE_SCREEN_REGION = (480, 426, 842, 167)
 
 # ──────────────────────────────────────────────
 # REGIÕES RELATIVAS À JANELA (alternativa)
@@ -113,9 +112,34 @@ BUTTON_INACTIVE_TOL   = 45
 # ──────────────────────────────────────────────
 # OCR (Tesseract)
 # ──────────────────────────────────────────────
-# Caminho para o executável do Tesseract (Windows)
-# Deixe None para usar o PATH do sistema.
-TESSERACT_CMD = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# O sistema detecta automaticamente o Tesseract conforme o SO.
+# Só altere se o Tesseract estiver instalado em caminho não padrão.
+#
+#   macOS (Homebrew Apple Silicon):  /opt/homebrew/bin/tesseract
+#   macOS (Homebrew Intel):          /usr/local/bin/tesseract
+#   Windows (padrão):                C:\Program Files\Tesseract-OCR\tesseract.exe
+#
+# Deixe None para detecção automática.
+import platform as _platform, shutil as _shutil, os as _os2
+def _auto_tesseract() -> str:
+    candidates = []
+    if _platform.system() == "Darwin":
+        candidates = [
+            "/opt/homebrew/bin/tesseract",   # Apple Silicon
+            "/usr/local/bin/tesseract",       # Intel
+        ]
+    elif _platform.system() == "Windows":
+        candidates = [
+            r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+            r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        ]
+    for p in candidates:
+        if _os2.path.isfile(p):
+            return p
+    found = _shutil.which("tesseract")
+    return found or ""
+
+TESSERACT_CMD = _auto_tesseract() or r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # Idioma OCR
 OCR_LANG = "eng"

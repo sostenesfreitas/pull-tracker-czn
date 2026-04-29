@@ -10,10 +10,8 @@ import pyautogui
 import numpy as np
 from PIL import Image
 
-import pygetwindow as gw
-
 from . import config
-from .capturer import screenshot_next_button, screenshot_table, get_window_rect
+from .capturer import screenshot_next_button, screenshot_table, get_window_rect, screenshot_region, WindowInfo
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +88,7 @@ def is_next_button_active(window: gw.Win32Window) -> bool:
             cx, cy = abs_coords
             r = _BTN_CAPTURE_RADIUS
             region = (cx - r, cy - r, r * 2, r * 2)
-            btn_img = pyautogui.screenshot(region=region)
+            btn_img = screenshot_region(region)
         else:
             btn_img = screenshot_next_button(window)
 
@@ -154,7 +152,7 @@ def read_page_number(window: gw.Win32Window) -> Optional[int]:
 
         cy = config.NEXT_BUTTON_SCREEN_COORDS[1]
         region = (cx - 40, cy - 20, 80, 40)
-        img = pyautogui.screenshot(region=region)
+        img = screenshot_region(region)
 
         import pytesseract, re
         text = pytesseract.image_to_string(img, config="--psm 7 -c tessedit_char_whitelist=0123456789")
@@ -183,7 +181,7 @@ def _page_counter_hash() -> str:
     cx = config.NEXT_BUTTON_SCREEN_COORDS[0] - 140   # ~140 px à esquerda do botão ">"
     cy = config.NEXT_BUTTON_SCREEN_COORDS[1]
     region = (cx - 90, cy - 22, 180, 44)             # cobre o número centralizado
-    img = pyautogui.screenshot(region=region)
+    img = screenshot_region(region)
     return hashlib.md5(img.tobytes()).hexdigest()
 
 

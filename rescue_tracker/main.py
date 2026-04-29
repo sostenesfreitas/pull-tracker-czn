@@ -104,11 +104,16 @@ def run(max_pages: Optional[int] = None, output_path: Optional[str] = None) -> N
     # ── 1. Localizar e focar a janela ──────────────────────────
     window = capturer.find_game_window()
     if window is None:
-        logger.error("Janela '%s' não encontrada. Abra o jogo e tente novamente.", config.WINDOW_TITLE)
+        logger.error(
+            "Janela '%s' não encontrada e coordenadas absolutas não configuradas.\n"
+            "Execute primeiro: python3 calibrar.py",
+            config.WINDOW_TITLE,
+        )
         sys.exit(1)
 
-    if not capturer.focus_game_window(window):
-        logger.warning("Não foi possível focar a janela automaticamente. Continuando...")
+    # Tenta focar, mas não é bloqueante — com coords absolutas o tracker
+    # funciona mesmo sem conseguir focar a janela via API
+    capturer.focus_game_window(window)
 
     logger.info("Aguardando 2 segundos antes de iniciar a captura...")
     time.sleep(2)
