@@ -206,13 +206,18 @@ class PullEntry:
 def _preprocess_for_ocr(img_pil: Image.Image) -> Image.Image:
     arr = np.array(img_pil.convert("RGB"))
     h, w = arr.shape[:2]
-    arr = cv2.resize(arr, (w * 2, h * 2), interpolation=cv2.INTER_CUBIC)
+    # 3× — mais detalhe para fontes pequenas
+    arr = cv2.resize(arr, (w * 3, h * 3), interpolation=cv2.INTER_CUBIC)
     gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
-    binary = cv2.adaptiveThreshold(
-        gray, 255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY, 11, 2,
-    )
+    # Sharpening leve
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    gray = cv2.filter2D(gray, -1, kernel)
+    gray = np.clip(gray, 0, 255).astype(np.uint8)
+    # Threshold de Otsu — adapta automaticamente ao brilho da célula
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    # Inverte se o fundo for escuro (texto claro)
+    if gray.mean() < 128:
+        binary = cv2.bitwise_not(binary)
     return Image.fromarray(binary)
 
 
@@ -244,13 +249,15 @@ def _split_row_into_columns(
 # OCR de célula
 # ──────────────────────────────────────────────────────────────
 
+_OCR_CELL_CONFIG = "--psm 7 --oem 3"   # PSM 7 = single text line (melhor para células)
+
 def _ocr_cell(cell_img: Image.Image) -> str:
     try:
         processed = _preprocess_for_ocr(cell_img)
         text = pytesseract.image_to_string(
             processed,
             lang=config.OCR_LANG,
-            config=config.OCR_CONFIG,
+            config=_OCR_CELL_CONFIG,
         )
         text = re.sub(r"[|\\`~\n\r]", " ", text)
         return " ".join(text.split()).strip()
@@ -291,7 +298,7 @@ def parse_page(table_img: Image.Image, page_number: int = 0) -> List[PullEntry]:
             timestamp   = _ocr_cell(timestamp_img)
 
             if not raw_name:
-                logger.debug("Pág %d, linha %d: OCR vazio — pulando.", page_number, row_idx)
+                logger.warning("Pág %d | L%d: OCR retornou vazio — linha ignorada.", page_number, row_idx)
                 continue
 
             # ── Lookup completo: raridade, imagem, classe, atributo ──
@@ -309,7 +316,11 @@ def parse_page(table_img: Image.Image, page_number: int = 0) -> List[PullEntry]:
                         page_number, raw_name, rarity,
                     )
                 else:
-                    logger.debug("Pág %d | '%s' não reconhecido → 3★.", page_number, raw_name)
+                    logger.warning(
+                        "Pág %d | L%d: OCR='%s' não reconhecido → 3★. "
+                        "Adicione ao characters.json se for um personagem válido.",
+                        page_number, row_idx, raw_name,
+                    )
             elif method.startswith("fuzzy"):
                 logger.info(
                     "Pág %d | OCR='%s' → fuzzy '%s' (%s) → %d★",
