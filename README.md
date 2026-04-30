@@ -19,7 +19,8 @@ Não quer instalar Python? Baixe o executável pronto:
 **[⬇ Releases → PullTracker.exe](../../releases/latest)**
 
 > **Importante:** o jogo roda como Administrador. Execute o `PullTracker.exe` também como Administrador (clique direito → "Executar como administrador").
-
+> 
+> **Importante:** antes de excutar o Pull Tracker o Tesseract OCR precisa esta instalado tambem | https://github.com/UB-Mannheim/tesseract/wiki 
 ---
 
 ## Interface Gráfica (GUI)
@@ -51,13 +52,16 @@ Na GUI, clique em **"Calibrar Regiões ▶"**.
 
 A janela de calibração vai:
 1. Tirar um screenshot do jogo automaticamente
-2. Exibir a imagem com cursor de mira
+2. <img width="1906" height="1030" alt="image" src="https://github.com/user-attachments/assets/5f14a8c1-0096-4b73-814e-51fc006bdc58" />
+3. Exibir a imagem com cursor de mira
 
-**Passo 1 — Área da tabela (barra laranja):**
+**Passo 1 — Área da tabela (barra verde):**
 Arraste um retângulo sobre as 5 linhas de dados (sem incluir o cabeçalho).
+<img width="1415" height="978" alt="image" src="https://github.com/user-attachments/assets/58dd6cb7-9f47-49de-8670-05ab704b2f68" />
 
-**Passo 2 — Botão ">" (barra azul):**
+**Passo 2 — Botão ">" (barra vermelha):**
 Clique no centro do botão de próxima página.
+<img width="1417" height="983" alt="image" src="https://github.com/user-attachments/assets/24cfda90-4b60-4e0e-bfd5-d2a3820c2b51" />
 
 Clique em **"Salvar e Fechar"** — as coordenadas são salvas automaticamente em `config.py`.
 
@@ -78,10 +82,12 @@ Aumente se o jogo demorar para carregar cada página.
 ## Usando a GUI
 
 1. Abra o jogo na tela de **Rescue Records** (primeira página)
-2. Execute o Pull Tracker **como Administrador**
-3. (Primeiro uso) Clique em **"Calibrar Regiões ▶"** e siga os passos
-4. Configure limite de páginas se desejar (checkbox "Limite de páginas")
-5. Clique em **"INICIAR CAPTURA"**
+2. <img width="1908" height="1077" alt="image" src="https://github.com/user-attachments/assets/0ca65cfd-7fc3-4594-bd24-86729de1734f" />
+
+3. Execute o Pull Tracker **como Administrador**
+4. (Primeiro uso) Clique em **"Calibrar Regiões ▶"** e siga os passos
+5. Configure limite de páginas se desejar (checkbox "Limite de páginas")
+6. Clique em **"INICIAR CAPTURA"**
 
 A janela será minimizada automaticamente para liberar o foco ao jogo. Ao concluir, a janela volta ao primeiro plano com o resultado no log.
 
