@@ -4,6 +4,14 @@ Captura automaticamente todo o histórico de pulls (Rescue Records) do **Chaos Z
 
 ---
 
+## Visualizador Web
+
+Depois de gerar o JSON, importe-o no site para visualizar seu histórico com gráficos e estatísticas:
+
+**[🌐 pull-tracker-czn.lovable.app](https://pull-tracker-czn.lovable.app)**
+
+---
+
 ## Download Rápido
 
 Não quer instalar Python? Baixe o executável pronto:
