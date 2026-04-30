@@ -1,43 +1,359 @@
 [
-  { "name": "Douglas",    "rarity": 3, "class": "Striker",    "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20015.webp" },
-  { "name": "Nakia",      "rarity": 3, "class": "Ranger",     "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20010.webp" },
-  { "name": "Raidel",     "rarity": 3, "class": "Vanguard",   "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20013.webp" },
-  { "name": "Yuri",       "rarity": 3, "class": "Hunter",     "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20016.webp" },
-  { "name": "Yvonne",     "rarity": 3, "class": "Controller", "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20026.webp" },
-  { "name": "Zatera",     "rarity": 3, "class": "Psionic",    "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/partner/20012.webp" },
-
-  { "name": "Amir",       "rarity": 4, "class": "Vanguard",   "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1017.webp" },
-  { "name": "Beryl",      "rarity": 4, "class": "Ranger",     "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1040.webp" },
-  { "name": "Cassius",    "rarity": 4, "class": "Controller", "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1049.webp" },
-  { "name": "Lucas",      "rarity": 4, "class": "Hunter",     "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1021.webp" },
-  { "name": "Maribell",   "rarity": 4, "class": "Vanguard",   "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1028.webp" },
-  { "name": "Mika",       "rarity": 4, "class": "Controller", "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1039.webp" },
-  { "name": "Nia",        "rarity": 4, "class": "Controller", "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1003.webp" },
-  { "name": "Owen",       "rarity": 4, "class": "Striker",    "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1050.webp" },
-  { "name": "Rei",        "rarity": 4, "class": "Controller", "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1056.webp" },
-  { "name": "Selena",     "rarity": 4, "class": "Ranger",     "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1005.webp" },
-  { "name": "Tressa",     "rarity": 4, "class": "Psionic",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1009.webp" },
-
-  { "name": "Adelheid",   "rarity": 5, "class": null,         "attribute": null,      "image": null },
-  { "name": "Chizuru",    "rarity": 5, "class": "Psionic",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1060.webp" },
-  { "name": "Diana",      "rarity": 5, "class": "Hunter",     "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1061.webp" },
-  { "name": "Haru",       "rarity": 5, "class": "Striker",    "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1062.webp" },
-  { "name": "Heidemarie", "rarity": 5, "class": null,         "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30093.webp" },
-  { "name": "Hugo",       "rarity": 5, "class": "Ranger",     "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1043.webp" },
-  { "name": "Kayron",     "rarity": 5, "class": "Psionic",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1064.webp" },
-  { "name": "Khalipe",    "rarity": 5, "class": "Vanguard",   "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1008.webp" },
-  { "name": "Luke",       "rarity": 5, "class": "Hunter",     "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1004.webp" },
-  { "name": "Magna",      "rarity": 5, "class": "Vanguard",   "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1010.webp" },
-  { "name": "Mei Lin",    "rarity": 5, "class": "Striker",    "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1027.webp" },
-  { "name": "Narja",      "rarity": 5, "class": "Controller", "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1052.webp" },
-  { "name": "Nine",       "rarity": 5, "class": "Vanguard",   "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30047.webp" },
-  { "name": "Orlea",      "rarity": 5, "class": "Controller", "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1024.webp" },
-  { "name": "Renoa",      "rarity": 5, "class": "Hunter",     "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1041.webp" },
-  { "name": "Rin",        "rarity": 5, "class": "Striker",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1018.webp" },
-  { "name": "Rita",       "rarity": 5, "class": "Psionic",    "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30097.webp" },
-  { "name": "Sereniel",   "rarity": 5, "class": "Hunter",     "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30075.webp" },
-  { "name": "Tenebria",   "rarity": 5, "class": null,         "attribute": null,      "image": null },
-  { "name": "Tiphera",    "rarity": 5, "class": "Controller", "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30084.webp" },
-  { "name": "Veronica",   "rarity": 5, "class": "Ranger",     "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1033.webp" },
-  { "name": "Yuki",       "rarity": 5, "class": "Striker",    "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1057.webp" }
+  {
+    "name": "Douglas",
+    "rarity": 3,
+    "class": "Striker",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20015.webp"
+  },
+  {
+    "name": "Nakia",
+    "rarity": 3,
+    "class": "Ranger",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20010.webp"
+  },
+  {
+    "name": "Raidel",
+    "rarity": 3,
+    "class": "Vanguard",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20013.webp"
+  },
+  {
+    "name": "Yuri",
+    "rarity": 3,
+    "class": "Hunter",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20016.webp"
+  },
+  {
+    "name": "Yvonne",
+    "rarity": 3,
+    "class": "Controller",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20026.webp"
+  },
+  {
+    "name": "Zatera",
+    "rarity": 3,
+    "class": "Psionic",
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/partner/20012.webp"
+  },
+  {
+    "name": "Amir",
+    "rarity": 4,
+    "class": "Vanguard",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1017.webp"
+  },
+  {
+    "name": "Beryl",
+    "rarity": 4,
+    "class": "Ranger",
+    "attribute": "Justice",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1040.webp"
+  },
+  {
+    "name": "Cassius",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1049.webp"
+  },
+  {
+    "name": "Lucas",
+    "rarity": 4,
+    "class": "Hunter",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1021.webp"
+  },
+  {
+    "name": "Maribell",
+    "rarity": 4,
+    "class": "Vanguard",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1028.webp"
+  },
+  {
+    "name": "Mika",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Justice",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1039.webp"
+  },
+  {
+    "name": "Nia",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1003.webp"
+  },
+  {
+    "name": "Owen",
+    "rarity": 4,
+    "class": "Striker",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1050.webp"
+  },
+  {
+    "name": "Rei",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1056.webp"
+  },
+  {
+    "name": "Selena",
+    "rarity": 4,
+    "class": "Ranger",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1005.webp"
+  },
+  {
+    "name": "Tressa",
+    "rarity": 4,
+    "class": "Psionic",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1009.webp"
+  },
+  {
+    "name": "Akad",
+    "rarity": 4,
+    "class": "Hunter",
+    "attribute": "Peltion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20007.webp"
+  },
+  {
+    "name": "Alyssa",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Ironrain",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20003.webp"
+  },
+  {
+    "name": "Arwen",
+    "rarity": 4,
+    "class": "Controller",
+    "attribute": "Terrascion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20001.webp"
+  },
+  {
+    "name": "Capri",
+    "rarity": 4,
+    "class": "Ranger",
+    "attribute": "",
+    "image": "/game-assets/card/card_back.png"
+  },
+  {
+    "name": "Carroty",
+    "rarity": 4,
+    "class": "Hunter",
+    "attribute": "Stella Familia",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20036.webp"
+  },
+  {
+    "name": "Daisy",
+    "rarity": 4,
+    "class": "Ranger",
+    "attribute": "Ironrain",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20011.webp"
+  },
+  {
+    "name": "Eloise",
+    "rarity": 4,
+    "class": "Psionic",
+    "attribute": "Terrascion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20027.webp"
+  },
+  {
+    "name": "Lillian",
+    "rarity": 4,
+    "class": "Striker",
+    "attribute": "Terrascion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20033.webp"
+  },
+  {
+    "name": "Rachel",
+    "rarity": 4,
+    "class": "Vanguard",
+    "attribute": "Ironrain",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20032.webp"
+  },
+  {
+    "name": "Ritochka",
+    "rarity": 4,
+    "class": "Striker",
+    "attribute": "Peltion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20035.webp"
+  },
+  {
+    "name": "Rosaria",
+    "rarity": 4,
+    "class": "Ranger",
+    "attribute": "Terrascion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20025.webp"
+  },
+  {
+    "name": "Wilhelmina",
+    "rarity": 4,
+    "class": "Vanguard",
+    "attribute": "Terrascion",
+    "image": "https://cdn.czndecksmeta.com/face/partner/20024.webp"
+  },
+  {
+    "name": "Adelheid",
+    "rarity": 5,
+    "class": null,
+    "attribute": null,
+    "image": null
+  },
+  {
+    "name": "Chizuru",
+    "rarity": 5,
+    "class": "Psionic",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1060.webp"
+  },
+  {
+    "name": "Diana",
+    "rarity": 5,
+    "class": "Hunter",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1061.webp"
+  },
+  {
+    "name": "Haru",
+    "rarity": 5,
+    "class": "Striker",
+    "attribute": "Justice",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1062.webp"
+  },
+  {
+    "name": "Heidemarie",
+    "rarity": 5,
+    "class": null,
+    "attribute": null,
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30093.webp"
+  },
+  {
+    "name": "Hugo",
+    "rarity": 5,
+    "class": "Ranger",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1043.webp"
+  },
+  {
+    "name": "Kayron",
+    "rarity": 5,
+    "class": "Psionic",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1064.webp"
+  },
+  {
+    "name": "Khalipe",
+    "rarity": 5,
+    "class": "Vanguard",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1008.webp"
+  },
+  {
+    "name": "Luke",
+    "rarity": 5,
+    "class": "Hunter",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1004.webp"
+  },
+  {
+    "name": "Magna",
+    "rarity": 5,
+    "class": "Vanguard",
+    "attribute": "Justice",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1010.webp"
+  },
+  {
+    "name": "Mei Lin",
+    "rarity": 5,
+    "class": "Striker",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1027.webp"
+  },
+  {
+    "name": "Narja",
+    "rarity": 5,
+    "class": "Controller",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1052.webp"
+  },
+  {
+    "name": "Nine",
+    "rarity": 5,
+    "class": "Vanguard",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30047.webp"
+  },
+  {
+    "name": "Orlea",
+    "rarity": 5,
+    "class": "Controller",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1024.webp"
+  },
+  {
+    "name": "Renoa",
+    "rarity": 5,
+    "class": "Hunter",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1041.webp"
+  },
+  {
+    "name": "Rin",
+    "rarity": 5,
+    "class": "Striker",
+    "attribute": "Void",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1018.webp"
+  },
+  {
+    "name": "Rita",
+    "rarity": 5,
+    "class": "Psionic",
+    "attribute": "Justice",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30097.webp"
+  },
+  {
+    "name": "Sereniel",
+    "rarity": 5,
+    "class": "Hunter",
+    "attribute": "Instinct",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30075.webp"
+  },
+  {
+    "name": "Tenebria",
+    "rarity": 5,
+    "class": null,
+    "attribute": null,
+    "image": null
+  },
+  {
+    "name": "Tiphera",
+    "rarity": 5,
+    "class": "Controller",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30084.webp"
+  },
+  {
+    "name": "Veronica",
+    "rarity": 5,
+    "class": "Ranger",
+    "attribute": "Passion",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1033.webp"
+  },
+  {
+    "name": "Yuki",
+    "rarity": 5,
+    "class": "Striker",
+    "attribute": "Order",
+    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1057.webp"
+  }
 ]
