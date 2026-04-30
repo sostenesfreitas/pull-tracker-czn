@@ -1,5 +1,6 @@
 # capturer.py — Screenshot e controle da janela do jogo
 
+import ctypes
 import time
 import logging
 import os
@@ -13,6 +14,9 @@ from . import config
 
 logger = logging.getLogger(__name__)
 
+_VK_MENU = 0x12
+_KEYEVENTF_KEYUP = 0x02
+
 
 # ──────────────────────────────────────────────────────────────
 # Funções de janela
@@ -21,6 +25,9 @@ logger = logging.getLogger(__name__)
 def find_game_window() -> Optional[gw.Win32Window]:
     """Procura a janela do jogo pelo título configurado."""
     windows = gw.getWindowsWithTitle(config.WINDOW_TITLE)
+    # Exclui a própria janela do Pull Tracker (título começa com "Pull Tracker")
+    # para evitar match falso quando WINDOW_TITLE é substring do título da GUI.
+    windows = [w for w in windows if not w.title.startswith("Pull Tracker")]
     if not windows:
         logger.error("Janela '%s' não encontrada. Certifique-se de que o jogo está aberto.", config.WINDOW_TITLE)
         return None
@@ -29,17 +36,35 @@ def find_game_window() -> Optional[gw.Win32Window]:
 
 
 def focus_game_window(window: gw.Win32Window) -> bool:
-    """Traz a janela do jogo para o foco (primeiro plano)."""
+    """
+    Traz a janela do jogo para o primeiro plano usando ctypes.
+
+    Usa o 'Alt key trick' para contornar a restrição do Windows que
+    impede SetForegroundWindow() de funcionar a partir de processos
+    que não têm o foco no momento da chamada.
+    """
     try:
         if window.isMinimized:
             window.restore()
-        window.activate()
+            time.sleep(0.2)
+
+        hwnd = window._hWnd
+        # Pressiona e solta Alt para desbloquear SetForegroundWindow
+        ctypes.windll.user32.keybd_event(_VK_MENU, 0, 0, 0)
+        ctypes.windll.user32.keybd_event(_VK_MENU, 0, _KEYEVENTF_KEYUP, 0)
+        ctypes.windll.user32.SetForegroundWindow(hwnd)
+
         time.sleep(config.DELAY_AFTER_FOCUS)
-        logger.debug("Janela focada com sucesso.")
+        logger.debug("Janela focada com sucesso (hwnd=%s).", hwnd)
         return True
     except Exception as exc:
-        logger.warning("Não foi possível focar a janela: %s", exc)
-        return False
+        logger.warning("Não foi possível focar a janela via ctypes (%s); tentando activate().", exc)
+        try:
+            window.activate()
+            time.sleep(config.DELAY_AFTER_FOCUS)
+            return True
+        except Exception:
+            return False
 
 
 def get_window_rect(window: gw.Win32Window) -> Tuple[int, int, int, int]:

@@ -26,12 +26,12 @@ DELAY_AFTER_FOCUS   = 0.5   # segundos após focar a janela
 
 # Centro do botão ">" de próxima página
 # Confirmado pelo Print no Paint: cursor em (1079, 914)
-NEXT_BUTTON_SCREEN_COORDS = (1079, 914)
+NEXT_BUTTON_SCREEN_COORDS = (1088, 917)
 
 # Região da tabela de pulls em coords absolutas de tela: (x, y, largura, altura)
 # x,y = canto superior esquerdo da PRIMEIRA linha de dados (abaixo do header)
 # Para encontrar: passe o mouse no Paint no início e fim da tabela
-TABLE_SCREEN_REGION = (245, 458, 1402, 271)   # calibrado pelos 4 cantos no Paint
+TABLE_SCREEN_REGION = (256, 460, 1401, 272)
 
 # ──────────────────────────────────────────────
 # REGIÕES RELATIVAS À JANELA (alternativa)

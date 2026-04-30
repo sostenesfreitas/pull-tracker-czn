@@ -1,5 +1,7 @@
 # navigator.py — Navegação entre páginas do Rescue Records
 
+import ctypes
+import ctypes.wintypes
 import time
 import logging
 import math
@@ -19,6 +21,60 @@ logger = logging.getLogger(__name__)
 
 # Tamanho da região capturada ao redor do botão quando usando coord absoluta
 _BTN_CAPTURE_RADIUS = 30   # px em cada direção → região 60×60
+
+# ──────────────────────────────────────────────────────────────
+# PostMessage click (funciona sem foco, ideal para clientes Electron/web)
+# ──────────────────────────────────────────────────────────────
+
+_WM_MOUSEMOVE    = 0x0200
+_WM_LBUTTONDOWN  = 0x0201
+_WM_LBUTTONUP    = 0x0202
+_MK_LBUTTON      = 0x0001
+
+
+def _find_render_hwnd(parent_hwnd: int) -> int:
+    """
+    Busca o child window de renderização (Chrome_RenderWidgetHostHWND) dentro do
+    parent_hwnd. Se não encontrar, devolve parent_hwnd.
+    Necessário para jogos Electron/CEF onde os eventos de mouse são consumidos
+    pelo renderer process, não pela janela raiz.
+    """
+    results: list = []
+
+    EnumChildProc = ctypes.WINFUNCTYPE(
+        ctypes.c_bool, ctypes.wintypes.HWND, ctypes.wintypes.LPARAM
+    )
+
+    @EnumChildProc
+    def _cb(hwnd, _):
+        buf = ctypes.create_unicode_buffer(256)
+        ctypes.windll.user32.GetClassNameW(hwnd, buf, 256)
+        name = buf.value
+        if "Chrome_RenderWidgetHostHWND" in name or "Intermediate D3D Window" in name:
+            results.append(hwnd)
+        return True
+
+    ctypes.windll.user32.EnumChildWindows(parent_hwnd, _cb, 0)
+    return results[-1] if results else parent_hwnd
+
+
+def _postmessage_click(parent_hwnd: int, screen_x: int, screen_y: int) -> None:
+    """
+    Envia WM_LBUTTONDOWN / WM_LBUTTONUP diretamente ao handle de renderização
+    via PostMessage, convertendo coordenadas de tela → cliente.
+    Funciona sem precisar que a janela esteja em foco.
+    """
+    target = _find_render_hwnd(parent_hwnd)
+
+    pt = ctypes.wintypes.POINT(screen_x, screen_y)
+    ctypes.windll.user32.ScreenToClient(target, ctypes.byref(pt))
+    lparam = ctypes.c_long((pt.y << 16) | (pt.x & 0xFFFF)).value
+
+    ctypes.windll.user32.PostMessage(target, _WM_MOUSEMOVE, 0, lparam)
+    time.sleep(0.03)
+    ctypes.windll.user32.PostMessage(target, _WM_LBUTTONDOWN, _MK_LBUTTON, lparam)
+    time.sleep(0.08)
+    ctypes.windll.user32.PostMessage(target, _WM_LBUTTONUP, 0, lparam)
 
 
 # ──────────────────────────────────────────────────────────────
@@ -103,6 +159,42 @@ def is_next_button_active(window: gw.Win32Window) -> bool:
 
 
 # ──────────────────────────────────────────────────────────────
+# Foco forçado da janela do jogo
+# ──────────────────────────────────────────────────────────────
+
+_VK_MENU = 0x12          # tecla Alt
+_KEYEVENTF_KEYUP = 0x02
+
+def _force_game_focus(window: gw.Win32Window) -> None:
+    """
+    Força a janela do jogo para o primeiro plano usando a API do Windows.
+
+    O "Alt key trick" contorna a restrição do Windows que bloqueia
+    SetForegroundWindow() quando o processo chamador não tem o foco.
+    Sem isso, pyautogui.click() envia o evento de input mas a janela
+    do jogo não o recebe porque não é a janela ativa.
+    """
+    try:
+        hwnd = window._hWnd
+        if ctypes.windll.user32.GetForegroundWindow() == hwnd:
+            return  # já em foco
+
+        # Pressiona e solta Alt — isso "desbloqueia" SetForegroundWindow
+        ctypes.windll.user32.keybd_event(_VK_MENU, 0, 0, 0)
+        ctypes.windll.user32.keybd_event(_VK_MENU, 0, _KEYEVENTF_KEYUP, 0)
+        ctypes.windll.user32.SetForegroundWindow(hwnd)
+        time.sleep(0.15)
+        logger.debug("Janela do jogo colocada em foco (hwnd=%s).", hwnd)
+    except Exception as exc:
+        logger.debug("ctypes SetForegroundWindow falhou (%s); tentando activate().", exc)
+        try:
+            window.activate()
+            time.sleep(0.15)
+        except Exception:
+            pass
+
+
+# ──────────────────────────────────────────────────────────────
 # Clique no botão de próxima página
 # ──────────────────────────────────────────────────────────────
 
@@ -131,7 +223,33 @@ def click_next_button(window: gw.Win32Window) -> None:
         click_y = win_y + y + h // 2
         logger.debug("Clicando em '>' (relativo à janela): (%d, %d)", click_x, click_y)
 
-    pyautogui.click(click_x, click_y)
+    _force_game_focus(window)
+
+    _MOUSEEVENTF_LEFTDOWN = 0x0002
+    _MOUSEEVENTF_LEFTUP   = 0x0004
+
+    # Diagnóstico: verifica se rodamos como admin (UIPI bloqueia input se jogo for admin e nós não formos)
+    is_admin = bool(ctypes.windll.shell32.IsUserAnAdmin())
+    fg_hwnd  = ctypes.windll.user32.GetForegroundWindow()
+    logger.info(
+        "CLIQUE → alvo=(%d,%d) | admin=%s | foreground_hwnd=%s | game_hwnd=%s",
+        click_x, click_y, is_admin, fg_hwnd, window._hWnd,
+    )
+
+    # Move cursor e envia mouse_event (API legada)
+    ret = ctypes.windll.user32.SetCursorPos(click_x, click_y)
+    time.sleep(0.15)
+
+    # Lê posição real após mover para confirmar que SetCursorPos funcionou
+    pt = ctypes.wintypes.POINT()
+    ctypes.windll.user32.GetCursorPos(ctypes.byref(pt))
+    logger.info("Cursor em (%d, %d) após SetCursorPos (ret=%d)", pt.x, pt.y, ret)
+
+    ctypes.windll.user32.mouse_event(_MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+    time.sleep(0.1)
+    ctypes.windll.user32.mouse_event(_MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    logger.info("mouse_event LEFTDOWN+UP enviado")
+
     time.sleep(config.DELAY_BETWEEN_PAGES)
 
 

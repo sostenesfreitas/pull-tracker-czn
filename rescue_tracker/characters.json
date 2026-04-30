@@ -22,7 +22,7 @@
   { "name": "Chizuru",    "rarity": 5, "class": "Psionic",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1060.webp" },
   { "name": "Diana",      "rarity": 5, "class": "Hunter",     "attribute": "Passion", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1061.webp" },
   { "name": "Haru",       "rarity": 5, "class": "Striker",    "attribute": "Justice", "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1062.webp" },
-  { "name": "Heidemarie", "rarity": 5, "class": null,         "attribute": null,      "image": null },
+  { "name": "Heidemarie", "rarity": 5, "class": null,         "attribute": null,      "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_30093.webp" },
   { "name": "Hugo",       "rarity": 5, "class": "Ranger",     "attribute": "Order",   "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1043.webp" },
   { "name": "Kayron",     "rarity": 5, "class": "Psionic",    "attribute": "Void",    "image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1064.webp" },
   { "name": "Khalipe",    "rarity": 5, "class": "Vanguard",   "attribute": "Instinct","image": "https://cdn.czndecksmeta.com/face/character/portrait_character_1008.webp" },
