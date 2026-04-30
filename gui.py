@@ -18,6 +18,35 @@ from PIL import Image, ImageTk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+
+def _base_dir() -> str:
+    """Diretório gravável: próximo ao .exe (frozen) ou ao gui.py (source)."""
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+def _calib_json_path() -> str:
+    return os.path.join(_base_dir(), "calibration.json")
+
+
+def _load_calibration() -> None:
+    """Carrega calibration.json e aplica no módulo config em memória."""
+    path = _calib_json_path()
+    if not os.path.exists(path):
+        return
+    try:
+        import json
+        from rescue_tracker import config as cfg
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if "TABLE_SCREEN_REGION" in data:
+            cfg.TABLE_SCREEN_REGION = tuple(data["TABLE_SCREEN_REGION"])
+        if "NEXT_BUTTON_SCREEN_COORDS" in data:
+            cfg.NEXT_BUTTON_SCREEN_COORDS = tuple(data["NEXT_BUTTON_SCREEN_COORDS"])
+    except Exception:
+        pass
+
 _PURPLE      = "#9B59B6"
 _PURPLE_DARK = "#7D3C98"
 _RED         = "#C0392B"
@@ -380,26 +409,39 @@ class CalibrateWindow(ctk.CTkToplevel):
         if not (self._table_abs and self._btn_abs):
             return
 
-        config_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "rescue_tracker", "config.py",
-        )
         try:
-            with open(config_path, "r", encoding="utf-8") as f:
-                content = f.read()
-            content = re.sub(
-                r"NEXT_BUTTON_SCREEN_COORDS\s*=\s*[^\n]*",
-                f"NEXT_BUTTON_SCREEN_COORDS = {self._btn_abs}",
-                content,
-            )
-            content = re.sub(
-                r"TABLE_SCREEN_REGION\s*=\s*[^\n]*",
-                f"TABLE_SCREEN_REGION = {self._table_abs}",
-                content,
-            )
-            with open(config_path, "w", encoding="utf-8") as f:
-                f.write(content)
+            # Salva em calibration.json próximo ao .exe (frozen) ou a gui.py (source)
+            import json
+            calib_path = _calib_json_path()
+            os.makedirs(os.path.dirname(calib_path), exist_ok=True)
+            with open(calib_path, "w", encoding="utf-8") as f:
+                json.dump({
+                    "TABLE_SCREEN_REGION": list(self._table_abs),
+                    "NEXT_BUTTON_SCREEN_COORDS": list(self._btn_abs),
+                }, f)
 
+            # Quando rodando do código-fonte, também atualiza config.py no disco
+            if not getattr(sys, "frozen", False):
+                config_path = os.path.join(
+                    os.path.dirname(os.path.abspath(__file__)),
+                    "rescue_tracker", "config.py",
+                )
+                with open(config_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                content = re.sub(
+                    r"NEXT_BUTTON_SCREEN_COORDS\s*=\s*[^\n]*",
+                    f"NEXT_BUTTON_SCREEN_COORDS = {self._btn_abs}",
+                    content,
+                )
+                content = re.sub(
+                    r"TABLE_SCREEN_REGION\s*=\s*[^\n]*",
+                    f"TABLE_SCREEN_REGION = {self._table_abs}",
+                    content,
+                )
+                with open(config_path, "w", encoding="utf-8") as f:
+                    f.write(content)
+
+            # Aplica na memória em ambos os casos
             from rescue_tracker import config as cfg
             cfg.NEXT_BUTTON_SCREEN_COORDS = self._btn_abs
             cfg.TABLE_SCREEN_REGION = self._table_abs
@@ -433,6 +475,7 @@ class PullTrackerApp(ctk.CTk):
         self._stop_evt = threading.Event()
         self._thread: threading.Thread | None = None
 
+        _load_calibration()
         self._build_ui()
         self._poll_logs()
 
